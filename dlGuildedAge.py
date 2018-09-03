@@ -27,14 +27,15 @@ while True:
 	soup = BeautifulSoup(page, "html.parser")
 	for link in soup.find_all(rel="next"):
 		siteUrl = link.get("href")
-	for link in soup.find_all('meta',property="og:image"):
-		comicUrl = link.get("content")
-	print (comicUrl)
-	
-	f = open(comicName + str (fileNumber) + '.jpg','wb')
-	f.write(urllib2.urlopen(comicUrl).read())
-	f.close()
-	fileNumber += 1
+	links = soup.find_all('div',id="comic")
+	for l in links:
+		for l2 in l.find_all('img'):
+			comicUrl = l2.get("src")
+			if comicUrl is not None:
+				f = open(comicName + str (fileNumber) + '.jpg','wb')
+				f.write(urllib2.urlopen(comicUrl).read())
+				f.close()
+				fileNumber += 1
 	if siteUrl == lastUrl:
 		break
 
