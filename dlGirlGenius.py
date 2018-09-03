@@ -29,12 +29,13 @@ while True:
 		siteUrl = link.get("href")
 	for link in soup.find_all('img',alt='Comic'):
 		comicUrl = link.get("src")
-	print (comicUrl)
-	
-	f = open(comicName + str (fileNumber) + '.jpg','wb')
-	f.write(urllib2.urlopen(comicUrl).read())
-	f.close()
-	fileNumber += 1
+		if comicUrl is not None:
+			f = open(comicName + str (fileNumber) + '.jpg','wb')
+			f.write(urllib2.urlopen(comicUrl).read())
+			f.close()
+		else
+			print (lastUrl + "Failed to download")
+		fileNumber += 1
 	if siteUrl == lastUrl:
 		break
 
